@@ -32,6 +32,7 @@ class _JobOrdersListScreenState extends ConsumerState<JobOrdersListScreen> {
   @override
   Widget build(BuildContext context) {
     DateFormat formatter = DateFormat('yyyy-MM-dd');
+    DateFormat timeFormat = DateFormat('h:mm a');
     final jobOrders = ref.watch(jobOrdersStreamProvider(formatter.format(visitDate!)));
 
     return Scaffold(
@@ -40,19 +41,15 @@ class _JobOrdersListScreenState extends ConsumerState<JobOrdersListScreen> {
             ? 'Job orders from ${formatter.format(visitDate!)}'
             : 'Job orders today',),
         elevation: 2,
-        foregroundColor: Colors.white,
-        backgroundColor: Colors.green,
+        foregroundColor: Colors.blueGrey,
+        backgroundColor: Colors.white,
         actions: <Widget>[
           IconButton(icon: Icon(Icons.date_range_outlined),
               onPressed: _selectDate),
-          // IconButton(icon: Icon(Icons.exit_to_app),
-          //     onPressed: () {
-          //       _auth.logOut();
-          //     })
         ],
       ),
       body: Padding(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(4),
           child: //Container(),
 
           jobOrders.when(
@@ -62,35 +59,49 @@ class _JobOrdersListScreenState extends ConsumerState<JobOrdersListScreen> {
                         itemCount: data.length,
                         itemBuilder: (context, index) {
                           return Card(
-                            // padding: const EdgeInsets.all(8.0),
-                            color: Colors.green.shade50,
-                            shadowColor: Colors.green.shade600,
-                            elevation: 2,
-                            margin: const EdgeInsets.all(4.0),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
+                            color: Colors.white,
+                            shadowColor: Colors.blueGrey,
+                            elevation: 0.2,
+                            margin: const EdgeInsets.all(2.0),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
-                                ListTile(
-                                  leading: Icon(Icons.adb),
-                                  title: Text(data[index].clientName),
-                                  subtitle: Text(data[index].shortAddress??"no address provided"),
-                                  trailing: Column(
-                                      children: [
-                                        Text(data[index].code),
-                                        Text(data[index].status),
-                                        Text(data[index].site??"no site provided"),
-                                      ]
-                                  ),
-                                  onTap: () {
-                                    debugPrint('Card tapped. {$index}');
-                                    String jobId = data[index].id.toString();
-                                    context.push("/jobOrder/$jobId");
-                                  },
-                                ),
+                                    ListTile(
+                                      leading: Container(
+                                              constraints: const BoxConstraints(
+                                              minWidth: 100,
+                                            ),
+                                            padding: const EdgeInsets.all(2.0),
+                                            // color: Colors.grey[100],
+                                            child: Text(
+                                              timeFormat.format(DateTime.parse(data[index].targetDate).toLocal()),
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.blueGrey,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                              textAlign: TextAlign.center,
 
-                                // Text(data[index].job_order_type),
-                              ],
+                                            ),
+                                          ),
+                                      title: Text(data[index].clientName),
+                                      subtitle: Text(data[index].shortAddress??"no address provided"),
+                                      trailing: Column(
+                                          children: [
+                                            Text(data[index].code),
+                                            Text(data[index].status),
+                                            Text(data[index].site??"no site provided"),
+                                          ]
+                                      ),
+                                      onTap: () {
+                                        debugPrint('Card tapped. {$index}');
+                                        String jobId = data[index].id.toString();
+                                        context.push("/jobOrder/$jobId");
+                                      },
+                                    ),
+                                ]
                             ),
                           );
                         }
