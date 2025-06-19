@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tbtech/job_orders/ui/job_orders_list.dart';
 import '../auth/services/auth_service.dart';
 import '../auth/ui/login_screen.dart';
 import '../home/ui/home_screen.dart';
@@ -71,6 +72,10 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         //     },
         //   ),
         // ],
+      ),
+      GoRoute(
+        path: '/job_orders',
+        builder: (context, state) => const JobOrdersListScreen(),
       ),
     ],
     // Optional: Error page

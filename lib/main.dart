@@ -25,7 +25,6 @@ class MyApp extends ConsumerWidget {
         primarySwatch: Colors.blue,
         useMaterial3: true,
       ),
-      // You can also define darkTheme, themeMode, etc.
     );
   }
 }

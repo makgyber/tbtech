@@ -51,7 +51,7 @@ class ApiAuthService {
         return false;
       }
     } catch (e) {
-      // Handle network errors or other exceptions
+      // Handle network errors or other errors
       print('Exception during login: $e');
       return false;
     }
