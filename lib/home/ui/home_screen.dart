@@ -18,8 +18,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  String? _userName;
-  var _joCounter = 0;
+  String _userName = "";
 
 
   Future<void> _loadUserData() async {
@@ -47,10 +46,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final joDaoProvider = ref.watch(jobOrderDaoProvider);
     final joRepository = ref.watch(jobOrderRepositoryProvider);
 
-
-    final textTheme = Theme.of(context).textTheme;
-    final colorScheme= Theme.of(context).colorScheme;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home'),
@@ -75,7 +70,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Greeter(name: _userName!, dateToday: visitDate),
+            Greeter(name: _userName, dateToday: visitDate),
             const Divider(height: 32.0, thickness: 1, color: Colors.blueGrey,),
 
             HomeButtonSection(children: [

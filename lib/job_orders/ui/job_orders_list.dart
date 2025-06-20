@@ -83,7 +83,6 @@ class _JobOrdersListScreenState extends ConsumerState<JobOrdersListScreen> {
                                                 fontWeight: FontWeight.w400,
                                               ),
                                               textAlign: TextAlign.center,
-
                                             ),
                                           ),
                                       title: Text(data[index].clientName),
@@ -98,7 +97,7 @@ class _JobOrdersListScreenState extends ConsumerState<JobOrdersListScreen> {
                                       onTap: () {
                                         debugPrint('Card tapped. {$index}');
                                         String jobId = data[index].id.toString();
-                                        context.push("/jobOrder/$jobId");
+                                        context.push("/job_order/$jobId");
                                       },
                                     ),
                                 ]
