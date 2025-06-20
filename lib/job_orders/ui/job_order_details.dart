@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tbtech/job_orders/repositories/job_orders_repository.dart';
 import 'package:tbtech/widgets/custom_form.dart';
+import 'package:floor/floor.dart';
 
 class JobOrderDetailScreen extends ConsumerStatefulWidget {
   const JobOrderDetailScreen({super.key, required this.id});
 
   final int id;
-
 
   @override
   ConsumerState<JobOrderDetailScreen> createState() => _JobOrderDetailScreenState();
@@ -16,7 +17,6 @@ class JobOrderDetailScreen extends ConsumerStatefulWidget {
 class _JobOrderDetailScreenState extends ConsumerState<JobOrderDetailScreen> {
   int _currentStep = 0;
   List<Step> _steps = [];
-
 
   void _handleFormSubmission(Map<String, dynamic> formData) {
     // Process the collected form data
@@ -34,6 +34,9 @@ class _JobOrderDetailScreenState extends ConsumerState<JobOrderDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    final jobOrder = ref.watch(jobOrderDetailProvider(widget.id));
+
     _steps = [
       Step(
         title: Text('Start'),
@@ -69,7 +72,10 @@ class _JobOrderDetailScreenState extends ConsumerState<JobOrderDetailScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Amaia Skies Cubao Tower 2"),
+          title: jobOrder.when(
+              data: (data)=>Text(data!.clientName),
+              error: (e, trace) => Text(e.toString()),
+              loading: ()=>const CircularProgressIndicator()),
           leading: Builder(
             builder: (BuildContext context) {
               return IconButton(

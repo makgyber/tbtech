@@ -129,3 +129,10 @@ final jobOrderCounterProvider = StreamProvider<int>((ref) {
   }
   return repo.getJobOrdersCountStream();
 });
+
+final jobOrderDetailProvider = FutureProvider.autoDispose
+    .family<JobOrder?, int>((ref, id) async {
+  final repository = ref.watch(jobOrderDaoProvider);
+  var jo = await repository!.getJobOrderById(id);
+  return jo;
+});
